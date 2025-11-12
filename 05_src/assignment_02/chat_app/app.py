@@ -29,7 +29,8 @@ COLLECTION_NAME = "chem_class"
 EMBEDDINGS_MODEL_NAME = "text-embedding-3-small"
 
 embeddings_client = OpenAI()
-chroma_client = chromadb.Client()
+# chroma_client = chromadb.Client()
+chroma_client = chromadb.PersistentClient(path=PROJECT_DATA_PATH)
 
 
 ids, documents = define_embeddings_items(JSON_PATH)
@@ -77,7 +78,7 @@ with gr.Blocks(theme=gr.themes.Soft()) as chat_app:
             "**An assistant for providing insights, creating reports, and drafting emails of chemistry students' performance.**\n\n"
             "_Credits: Built by Maria Rossano • Logo created using LOGO by logogpts.cn_"
         ),
-        examples=["I want a report on the the overall students' performance in spectroscopy"],
+        examples=["I want a report on the the overall students' performance in spectroscopy. Include today's date in the report"],
         textbox=gr.Textbox(placeholder="Hello, type your request...", autofocus=True)
     )
 
