@@ -25,9 +25,6 @@ The agent is comprised by:
     - (e) Obtaing embeddings for the user prompt during the creation of the final prompt and obtaining a resulting proximity match with respect to the data in the dataset (in the ChromaDB collection)
 - A user interface was implemented using Gradio, as shown below.
 
-[Agent Gradio UI](./assets/figures/agent-gradio-ui-demo.gif)
-
-
 <div id="fig-6" align="center">
   <img src="assets/figures/agent-gradio-ui-demo.gif" alt="Fig 1. Interactive gradio UI to interact with the Agent" style="width:60%;height:60%">
   <div style="text-align:justify; max-width:600px; margin:auto;">
