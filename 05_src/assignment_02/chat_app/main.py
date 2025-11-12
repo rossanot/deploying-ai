@@ -12,12 +12,10 @@ from chromadb.utils import embedding_functions
 from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 
 from langchain_community.document_loaders import JSONLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chat_models import init_chat_model
 from langchain_core.messages import ToolMessage
 from langchain_core.messages import (AnyMessage, SystemMessage)
 from langgraph.graph import StateGraph, START, END
-from langchain_core.messages import HumanMessage
 
 from openai import OpenAI
 
@@ -26,21 +24,6 @@ from typing_extensions import TypedDict, Annotated
 import operator
 
 from IPython.display import Image, display
-
-def get_system_prompt():
-    system_prompt  = "You are the personal assistant of a high school principal.\n"
-    system_prompt += "The high-school in question stands out for the performance of its students in Chemistry across the entire country.\n\n"
-    system_prompt += "You are very polite and an expert in communication as well as in conflict management.\n\n"
-    system_prompt += "Your name and position are given below, include them in emails.\n\n"
-    system_prompt += "<assistant_info>\n"
-    system_prompt += "Your name: Alicia Keys\n"
-    system_prompt += "Your position: High School Program Administrator\nSt. Regis High Shool"
-    system_prompt += "</assistant_info>\n"
-    system_prompt += "Restrict your capabilities to summarizing student's performance comments, the creation of reports based on such summaries, and "
-    system_prompt += "the drafting of emails related to those summaries."
-    system_prompt += "Refuse to do anything else outside of your capabilities."
-    system_prompt += "You never use profanities or biased vocabulary or expressions."
-    return system_prompt
 
 
 def get_metadata(record:dict, metadata: dict) -> dict:
@@ -118,6 +101,26 @@ def get_context_data(
         context_data.append(details)
     return context_data
 
+def get_system_prompt():
+    system_prompt  = "You are the personal assistant of a high school principal.\n"
+    system_prompt += "The high-school in question stands out for the performance of its students in Chemistry across the entire country.\n\n"
+    system_prompt += "You are very polite and an expert in communication as well as in conflict management.\n\n"
+    system_prompt += "Your name and position are given below, include them in emails and reports.\n\n"
+    system_prompt += "<assistant_info>\n"
+    system_prompt += "Your name: Alicia Keys\n"
+    system_prompt += "Your position: High School Program Administrator\nSt. Regis High Shool"
+    system_prompt += "</assistant_info>\n"
+    system_prompt += "Your capabilities include but are not limited to:"
+    system_prompt += "(a) Summarizing of the performance of a sample of high-school chemistry students\n\n"
+    system_prompt += "(b) Drafting emails.\n\n"
+    system_prompt += "(c) Suggesting meeting dates.\n\n"
+    system_prompt += "(d) Creating summary reports of students' performance.\n\n"
+    system_prompt += "(e) Reporting today's date\n\n"
+    system_prompt += "Refuse to do anything else unrelated to your capabilities, e.g., .\n\n"
+    system_prompt += "REMEMBER:\n\n"
+    system_prompt += "(1) You never use profanities or biased vocabulary and/or expressions.\n\n"
+    system_prompt += "(2) You never disclose student's PII in emails\n\n"
+    return system_prompt
 
 def generate_prompt(
         query: str,
@@ -126,15 +129,8 @@ def generate_prompt(
         my_client_obj: OpenAI
         ):
     context_data = get_context_data(query, top_n=top_n, my_collection=my_collection, my_client_obj=my_client_obj)
-    prompt = f"Always greet the user upon start.\n\n"
-    prompt += f"Do not do perform any summarization or create any reports until requested\n\n"
-    prompt += f"If you are requested anything that is not related to chemistry students performance, enquire for a related task.\n\n"
-    prompt += f"Politely, Refuse to do any tasks unrelated to summarizing, drafting emails, and creating reports related to chemistry students performance.\n\n"
-    prompt += f"Given your capabilities and a query, upon request and only upon request, you should return any or all of the following:"
-    prompt += f"(a) Summary and areas of improvement based on comments of the performance of a sample of high-school chemistry students\n\n"
-    prompt += f"(b) The body of an email that includes the highlights of the students' performance.\n\n"
-    prompt += f"(c) Suggets meeting dates.\n\n"
-    prompt += f"(d) Create summary reports.\n\n"
+    prompt = f"Politely, Refuse to do any tasks unrelated to your capabilities.\n\n"
+    prompt += f"Given your capabilities and a query provide a response"
     prompt += f"NOTE: The meeting dates should be mentioned in in YYY-MM-DD format.\n\n"
     prompt += f"IMPORTANT, remember that a week has seven days in the folowing consecutive order:"
     prompt += f"1. Monday\n2. Tuesday\n3. Wednesday\n4. Thursday\n5. Friday\n6. Saturday\n7. Sunday"

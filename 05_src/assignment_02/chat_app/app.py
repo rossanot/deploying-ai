@@ -3,11 +3,11 @@ from langchain_core.messages import HumanMessage, AIMessage
 from dotenv import load_dotenv
 from typing import Optional
 import os
-from utils import *
+from main import *
 
 from langchain.chat_models import init_chat_model
 
-load_dotenv('../.secrets')
+load_dotenv('./05_src/assignment_02/.secrets')
 
 if not os.environ.get("OPENAI_API_KEY"):
     raise ValueError("Missing OPENAI_API_KEY environment variable")
@@ -17,14 +17,8 @@ if not os.environ.get("OPENAI_API_KEY"):
 # QUERY_STUDENT_INFO += "I require you suggest a meeting within the email body. The potential meeting date or dates should considering today's date"
 # QUERY_STUDENT_INFO += "as well as the upcoming holidays within the current month or next month (if required). Mention the holidays in the email."
 
-# Invoke the call
-# messages = [HumanMessage(content=generate_prompt(QUERY_STUDENT_INFO, top_n=1, my_collection=collection, my_client_obj=embeddings_client))]
-# messages = agent.invoke({"messages": messages})
-# for m in messages["messages"]:
-#     m.pretty_print()
-
-PROJECT_PATH = '../'
-PROJECT_DATA_PATH = '../data'
+PROJECT_PATH = './05_src/assignment_02/'
+PROJECT_DATA_PATH = './05_src/assignment_02/data/'
 
 # filepaths
 JSON_PATH = os.path.join(PROJECT_DATA_PATH, 'students-performance.jsonl')
@@ -69,11 +63,24 @@ def simple_chat(message: str, history: list[dict]) -> str:
 
     return response['messages'][len(response['messages']) - 1].content
 
-    
-chat = gr.ChatInterface(
-    fn=simple_chat,
-    type="messages"
-)
+
+
+with gr.Blocks(theme=gr.themes.Soft()) as chat_app:
+    gr.Image(value="./05_src/assignment_02/assets/figures/app-logo.png", label=None, show_label=False, height=80)
+
+    chat = gr.ChatInterface(
+        fn=simple_chat,
+        type="messages",
+        theme=gr.themes.Soft(),
+        title="Chem Reports Assistant",
+        description=(
+            "**An assistant for providing insights, creating reports, and drafting emails of chemistry students' performance.**\n\n"
+            "_Credits: Built by Maria Rossano • Logo created using LOGO by logogpts.cn_"
+        ),
+        examples=["I want a report on the the overall students' performance in spectroscopy"],
+        textbox=gr.Textbox(placeholder="Hello, type your request...", autofocus=True)
+    )
+
 
 if __name__ == "__main__":
-    chat.launch()
+    chat_app.launch()
