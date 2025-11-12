@@ -1,3 +1,6 @@
 .gradio
 *.secrets
+
+# assignment_02 specific
+!assignment_02/data/*.jsonl
 assignment_02/notebooks/*.ipynb

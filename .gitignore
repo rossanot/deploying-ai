@@ -1,6 +1,3 @@
-# assignment_02 specific
-05_src/assignmnet_02/data/*.jsonl
-
 # Python-generated files
 __pycache__/
 *.py[oc]
