@@ -24,7 +24,9 @@ The agent is comprised by:
     - (d) Creating a ChromaDB collection
     - (e) Obtaing embeddings for the user prompt during the creation of the final prompt and obtaining a resulting proximity match with respect to the data in the dataset (in the ChromaDB collection)
 - A user interface was implemented using Gradio, as shown below.
-![Agent Gradio UI](05_src_/assignment_02/assets/figures/agent-gradio-ui-demo.gif)
+
+[Agent Gradio UI](./assets/figures/agent-gradio-ui-demo.gif)
+
 - A series of sample prompts ar eprovided in the project directory. In addition, a smaple prompt is provided in the Gradio UI.
 
 
