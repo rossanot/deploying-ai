@@ -27,7 +27,16 @@ The agent is comprised by:
 
 [Agent Gradio UI](./assets/figures/agent-gradio-ui-demo.gif)
 
-- A series of sample prompts ar eprovided in the project directory. In addition, a smaple prompt is provided in the Gradio UI.
+
+<div id="fig-6" align="center">
+  <img src="assets/figures/agent-gradio-ui-demo.gif" alt="Fig 1. Interactive gradio UI to interact with the Agent" style="width:60%;height:60%">
+  <div style="text-align:justify; max-width:600px; margin:auto;">
+    <b>Fig 1.</b>Interactive gradio UI to interact with the Agent. (Animated demo.)
+  </div>
+</div><br />
+
+
+- A series of sample prompts are provided in the project directory. In addition, a smaple prompt is provided in the Gradio UI.
 
 
 ## **How to use**
