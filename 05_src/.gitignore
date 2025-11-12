@@ -1,1 +1,3 @@
 .gradio
+.secrets
+assignment_02/notebooks/*.ipynb
